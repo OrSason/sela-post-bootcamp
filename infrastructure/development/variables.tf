@@ -5,5 +5,16 @@ variable "resourceGroupName"{
 
 variable "location"{
    type = string
-   description = "location of resource group"
+   description = "Name of resource group"
+}
+
+
+variable "subscription_id"{
+}
+
+variable "serviceprincple_id"{
+}
+variable "serviceprincple_key"{
+}
+variable "tenant_id"{
 }
