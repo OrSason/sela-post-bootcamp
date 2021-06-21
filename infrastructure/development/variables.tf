@@ -13,15 +13,15 @@ variable "location"{
 variable "subscription_id"{
 }
 
-variable "serviceprincple_id"{
+variable "serviceprinciple_id"{
 }
-variable "serviceprincple_key"{
+variable "serviceprinciple_key"{
 }
 variable "tenant_id"{
 }
 
 variable "ssh_key" {
-    default = "~/.ssh/id_rsa.pub"
+    default = "~/.ssh/id_rsa2.pub"
 }
 
 /*
