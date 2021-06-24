@@ -6,51 +6,98 @@ provider "kubernetes" {
     cluster_ca_certificate =  var.cluster_ca_certificate
 }
 
+provider "helm" {
+    kubernetes {
+        
+        host                   = var.host
+        client_key             = var.client_key
+        client_certificate     = var.client_certificate
+        cluster_ca_certificate = var.cluster_ca_certificate
+    }  
+}
 
-resource "kubernetes_deployment" "example" {
+resource "kubernetes_namespace" "workspace_np" {
   metadata {
-    name = "terraform-example"
+    name = var.env_np
+  }
+}
+
+
+resource "helm_release" "nginx_ingress" {
+  name = "nginx-ingress-controller"
+  namespace = var.env_np
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "nginx-ingress-controller"
+  values = [
+    "${file("values.yaml")}"
+  ]
+  set {
+    name  = "service.type"
+    value = "LoadBalancer"
+  }
+  
+}
+/*
+resource "kubernetes_service" "example" {
+  metadata {
+    name = "ingress-service"
+  }
+  spec {
+    port {
+      port = 80
+      target_port = 80
+      protocol = "TCP"
+    }
+    type = "NodePort"
+  }
+}
+
+
+resource "kubernetes_ingress" "example" {
+  wait_for_load_balancer = true
+  metadata {
+    name = "example"
+    namespace = var.env_np
     labels = {
-      test = "MyExampleApp"
+      app = "app1"
+    }
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
     }
   }
-
   spec {
-    replicas = 3
 
-    selector {
-      match_labels = {
-        test = "MyExampleApp"
+    rule {
+      host = "foo.com"
+      http {
+        path {
+          backend {
+            service_name = "svc"
+            service_port = "http"
+          }
+        }
       }
     }
 
-    template {
-      metadata {
-        labels = {
-          test = "MyExampleApp"
+   rule {
+      http {
+        path {
+          path = "/*"
+          backend {
+            service_name = kubernetes_service.example.metadata.0.name
+            service_port = 80
+          }
         }
       }
+    }
 
-      spec {
-        container {
-          image = "nginx:1.7.8"
-          name  = "example"
-
-          
-
-          liveness_probe {
-            http_get {
-              path = "/nginx_status"
-              port = 80
-
-              http_header {
-                name  = "X-Custom-Header"
-                value = "Awesome"
-              }
-            }
-
-            initial_delay_seconds = 3
-            period_seconds        = 3
+    rule {
+      http {
+        path {
+          path = "/app1/*"
+          backend {
+            service_name = "app1"
+            service_port = 8080
           }
         }
       }
@@ -58,19 +105,29 @@ resource "kubernetes_deployment" "example" {
   }
 }
 
-resource "kubernetes_service" "example" {
+
+resource "kubernetes_pod" "example" {
   metadata {
     name = "terraform-example"
+    namespace = var.env_np
+    labels = {
+      app = "app1"
+    }
   }
-  spec {
-    selector = {
-      test = "MyExampleApp"
-    }
-    port {
-      port        = 80
-      target_port = 80
-    }
 
-    type = "LoadBalancer"
+  spec {
+    container {
+      image = "nginx:1.7.9"
+      name  = "example"
+
+      port {
+        container_port = 8080
+      }
+    }
   }
 }
+
+output "load_balancer_ip" {
+  value = kubernetes_ingress.example.status.0.load_balancer.0.ingress.0.ip
+}
+*/
