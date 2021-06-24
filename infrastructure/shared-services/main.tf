@@ -8,7 +8,7 @@ resource "azurerm_container_registry" "acr" {
   name                     = "ors09"
   resource_group_name      = var.resourceGroupName
   location                 = var.location
-  sku                      = "Premium"
+  sku                      = "Standard"
   admin_enabled            = false
   #georeplication_locations = ["North Europe"]
   depends_on          = [azurerm_resource_group.rg]
