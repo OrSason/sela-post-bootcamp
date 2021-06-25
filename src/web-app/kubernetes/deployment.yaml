@@ -18,5 +18,5 @@ spec:
     spec:
       containers:
       - name: goapp
-        image: ors09.azurecr.io/goapp:v2
+        image: ors10.azurecr.io/goapp:v1
         imagePullPolicy: "Always"

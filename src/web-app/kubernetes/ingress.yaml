@@ -12,12 +12,21 @@ spec:
   - http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
           serviceName: goapp
           servicePort: 3000
   - http:
       paths:
-      - path: /hello
+      - path: /hello/
+        pathType: Exact   
+        backend:
+          serviceName: goapp
+          servicePort: 3000
+  - http:
+      paths:
+      - path: /form/
+        pathType: Exact   
         backend:
           serviceName: goapp
           servicePort: 3000

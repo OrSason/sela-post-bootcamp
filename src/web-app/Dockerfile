@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:alpine3.13
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY . .
 # Build the Go app
 RUN go build  
 
-# Expose port 8080 to the outside world
+# Expose port 3000 to the outside world
 EXPOSE 3000
 
 # Command to run the executable
