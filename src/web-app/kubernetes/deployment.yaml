@@ -2,28 +2,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wtapp
-  namespace: dev
-  labels:
-    app: wtapp
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: wtapp
-  template:
-    metadata:
-      labels:
-        app: wtapp
-    spec:
-      containers:
-      - name: wtapp
-        image: ors09/wtapp:latest
-        imagePullPolicy: "Always"
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: goapp
   namespace: dev
   labels:
