@@ -1,4 +1,4 @@
 # NGINX ingerss controller
 
-- ingress controller installed automatically when deploying terraform using helm release resource
+- NGINX ingress controller installed automatically using helm release resource
 - the resource can be found in ingress-nginx module
