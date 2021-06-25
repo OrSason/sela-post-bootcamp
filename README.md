@@ -31,7 +31,7 @@
       - tenant_id#
       - ssh_key# ssh public key for accessing cluster's node
    
-    - run
+   - run
 
           terraform plan
           terraform apply
