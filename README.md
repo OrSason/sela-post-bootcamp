@@ -29,7 +29,8 @@
       - service_principal_id # 
       - service_principal_key # 
       - tenant_id#
-      - ssh_key# ssh public key for accessing cluster's nodes
+      - ssh_key# ssh public key for accessing cluster's node
+   
     - run
 
           terraform plan
