@@ -18,8 +18,8 @@ serviceprinciple_key  = var.serviceprinciple_key
 
 }
 
-module "k8s" {
-  source                = "../tf-modules/k8s"
+module "ingress-nginx" {
+  source                = "../tf-modules/ingress-nginx"
   host                  = module.dev_aks.host
   client_certificate    = base64decode(module.dev_aks.client_certificate)
   client_key            = base64decode(module.dev_aks.client_key)
