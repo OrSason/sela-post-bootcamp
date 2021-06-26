@@ -56,6 +56,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 
   tags = {
-    Environment = "Production"
+    Environment = var.env_name
   }
 }

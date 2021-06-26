@@ -4,13 +4,14 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-module "dev_aks"{
+module "aks"{
 source                = "../tf-modules/aks"
 resourceGroupName     = var.resourceGroupName
 location              = var.location
-aks_name              = "devAKS"
+env_name              = var.env_name
+aks_name              = "${var.env_name}-AKS"
 node_size             = var.node_size
-node_pool_name        = "devnp"
+node_pool_name        = "${var.env_name}np"
 depends_on            = [azurerm_resource_group.rg]
 ssh_key               = var.ssh_key
 serviceprinciple_id   = var.serviceprinciple_id
@@ -18,12 +19,12 @@ serviceprinciple_key  = var.serviceprinciple_key
 
 }
 
-module "ingress-nginx" {
+module "ingress_nginx" {
   source                = "../tf-modules/ingress-nginx"
-  host                  = module.dev_aks.host
-  client_certificate    = base64decode(module.dev_aks.client_certificate)
-  client_key            = base64decode(module.dev_aks.client_key)
-  cluster_ca_certificate= base64decode(module.dev_aks.cluster_ca_certificate)
-  env_np                = "dev"
+  host                  = module.aks.host
+  client_certificate    = base64decode(module.aks.client_certificate)
+  client_key            = base64decode(module.aks.client_key)
+  cluster_ca_certificate= base64decode(module.aks.cluster_ca_certificate)
+  env_np                = var.env_name
 }
 

@@ -1,6 +1,7 @@
 
 variable "resourceGroupName"{
    type = string
+   default="aks-dev"
    description = "Name of resource group"
 }
 

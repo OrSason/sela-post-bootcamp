@@ -1,6 +1,7 @@
 
 variable "resourceGroupName"{
    type = string
+   default= "aks-shared"
    description = "Name of resource group"
 }
 
@@ -34,5 +35,10 @@ variable "cluster_name" {
 }
 variable "env_name" {
   description = "The environment for the AKS cluster"
-  default     = "dev"
+  default     = "shared"
+}
+
+variable "registry_name" {
+  description = "the name of the container registry"
+  
 }

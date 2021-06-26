@@ -40,3 +40,8 @@ variable "node_pool_name"{
    type = string
    description = "name of the node pool"
 }
+
+
+variable "env_name" {
+  description = "The environment for the AKS cluster"
+}
