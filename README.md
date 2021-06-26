@@ -8,7 +8,7 @@
   - also, nginx ingress controller will be installed on each cluster using helm.
   - kubernetes provider require  a service principal
      - can be created using this guide: https://github.com/marcel-dempers/docker-development-youtube-series/blob/master/kubernetes/cloud/azure/getting-started.md
-  - terraform state will be stored remotly in azure blob storage account for each enviroment
+  - terraform state will be stored remotely in azure blob storage account for each enviroment
   
   
   ### Prerequisite 
