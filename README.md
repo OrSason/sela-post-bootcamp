@@ -6,9 +6,9 @@
 
   - This repository contains terraform scripts that deploy AKS on 3 enviroments (development,production, shared-services).
   - Also, nginx ingress controller will be installed on each cluster using helm.
-  -Kubernetes provider require  a service principal
-     - can be created using this guide: https://github.com/marcel-dempers/docker-development-youtube-series/blob/master/kubernetes/cloud/azure/getting-started.md
-  - terraform state will be stored remotely in azure blob storage account for each enviroment
+  - Kubernetes provider require  a service principal
+     - Service principal can be created using this guide: https://github.com/marcel-dempers/docker-development-youtube-series/blob/master/kubernetes/cloud/azure/getting-started.md
+  - Terraform state will be stored remotely in azure blob storage account for each enviroment
   
   
   ### Prerequisite 
@@ -37,6 +37,7 @@
           $ terraform plan
           $ terraform apply
     
+ 
       
       
       
