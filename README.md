@@ -21,7 +21,7 @@
    - clone the repository 
    - move to desired enviroment and run:
   
-         terraform init
+         $ terraform init
          
    - provide terraform.tfvars file with the following variables:
       - location #azure region
@@ -34,8 +34,8 @@
    
    - run
 
-          terraform plan
-          terraform apply
+          $ terraform plan
+          $ terraform apply
     
       
       
