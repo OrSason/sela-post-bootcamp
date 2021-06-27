@@ -8,6 +8,6 @@
  ### how to install?
    - after AKS is deployed run
    
-         > helm install <release-name> ./web-app
+         $ helm install <release-name> ./web-app
    
    
