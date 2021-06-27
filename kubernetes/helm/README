@@ -1,0 +1,11 @@
+# Helm
+
+## web-app
+ - contain helm chart for deploying sample go app to the k8s cluster
+ - chart will expose the app using ingress rule
+ ### how to install?
+   after AKS is deployed run:
+   
+   > $helm install <release-name> ./web-app
+   
+   
