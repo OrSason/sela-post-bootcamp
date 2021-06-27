@@ -14,7 +14,7 @@
        
    -  install chart with
    
-          $ helm install <release-name> ./web-app
+          $ helm install <release-name> ./web-app -n <namespace-name>
           
    - check pods and services with
    
