@@ -6,13 +6,20 @@
  - chart will expose the app using ingress rule
  
  ### how to install?
-   - after AKS is deployed run
+   - after AKS is deployed, connect with
+              
+         $ az login
+         $ az aks get-credentials --resource-group <resouce-group-name> --name <cluster-name>
+       
+       
+   -  install chart with
    
-         $ helm install <release-name> ./web-app
+          $ helm install <release-name> ./web-app
+          
    - check pods and services with
    
            $ kubectl get pods
            $ kbectl get svc
          
          
-  - default values can be changed in values.yml   
+  - custom values can be set in values.yml   
