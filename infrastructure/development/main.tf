@@ -21,10 +21,6 @@ serviceprinciple_key  = var.serviceprinciple_key
 
 module "ingress_nginx" {
   source                = "../tf-modules/ingress-nginx"
-  host                  = module.aks.host
-  client_certificate    = base64decode(module.aks.client_certificate)
-  client_key            = base64decode(module.aks.client_key)
-  cluster_ca_certificate= base64decode(module.aks.cluster_ca_certificate)
   env_np                = var.env_name
 }
 

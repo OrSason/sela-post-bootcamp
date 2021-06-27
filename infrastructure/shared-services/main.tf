@@ -2,6 +2,7 @@
 resource "azurerm_resource_group" "rg" {
   name     = var.resourceGroupName
   location = var.location
+
 }
 
 resource "azurerm_container_registry" "acr" {
@@ -12,6 +13,8 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled            = false
   #georeplication_locations = ["North Europe"]
   depends_on          = [azurerm_resource_group.rg]
+
+
 }
 
 
@@ -32,9 +35,13 @@ serviceprinciple_key  = var.serviceprinciple_key
 
 module "ingress_nginx" {
   source                = "../tf-modules/ingress-nginx"
-  host                  = module.aks.host
-  client_certificate    = base64decode(module.aks.client_certificate)
-  client_key            = base64decode(module.aks.client_key)
-  cluster_ca_certificate= base64decode(module.aks.cluster_ca_certificate)
   env_np                = var.env_name
+}
+
+
+module "jenkins" {
+  source                = "../tf-modules/jenkins"
+  env_np                = var.env_name
+  jenkins_user          = var.jenkins_user
+  jenkins_pass          = var.jenkins_pass
 }

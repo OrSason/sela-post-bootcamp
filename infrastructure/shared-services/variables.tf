@@ -20,8 +20,10 @@ variable "subscription_id"{
 
 variable "serviceprinciple_id"{
 }
+
 variable "serviceprinciple_key"{
 }
+
 variable "tenant_id"{
 }
 
@@ -41,4 +43,10 @@ variable "env_name" {
 variable "registry_name" {
   description = "the name of the container registry"
   
+}
+
+variable "jenkins_user"{
+}
+
+variable "jenkins_pass"{
 }
