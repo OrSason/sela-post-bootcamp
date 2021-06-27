@@ -9,5 +9,10 @@
    - after AKS is deployed run
    
          $ helm install <release-name> ./web-app
+   - check pods and services with
    
-   
+           $ kubectl get pods
+           $ kbectl get svc
+         
+         
+  - default values can be changed in values.yml   
