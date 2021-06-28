@@ -11,7 +11,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     name       = "${var.env_name}np"
     enable_auto_scaling = false
     node_count = 1
-    #for autoscaling uncomment next 3
+    #for autoscaling uncomment next 3 Lines
     #enable_auto_scaling = true
     #max_count =  5
     #min_count =  2

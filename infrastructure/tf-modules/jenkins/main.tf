@@ -1,8 +1,9 @@
 
+
 resource "helm_release" "jenkins" {
   name       = "jenkins"
   namespace  = var.env_np
-  repository = "https://charts.bitnami.com/bitnami"
+  repository = "https://charts.jenkins.io"
   chart      = "jenkins"
    values = [
    file("/helm-values/jenkins.yaml")
@@ -14,26 +15,20 @@ resource "helm_release" "jenkins" {
   }
 
   set {
-    name  = "jenkinsUser"
+    name  = "controller.adminUser"
     value = var.jenkins_user
   }
 
   set {
-    name  = "jenkinsPassword"
+    name  = "controller.adminPassword"
     value = var.jenkins_pass
   }
 
-  set {
-    name  = "service.type"
-    value = "NodePort"
-  }
-
-  set {
-    name  = "service.port"
-    value = "80"
-  }
-
+ 
 }
+
+
+
 
 resource "kubernetes_ingress" "ingress" {
   wait_for_load_balancer = true
@@ -52,7 +47,7 @@ resource "kubernetes_ingress" "ingress" {
           path = "/"
           backend {
             service_name = "jenkins"
-            service_port = 80
+            service_port = 8080
           }
         }
       }
