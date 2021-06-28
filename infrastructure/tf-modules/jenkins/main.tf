@@ -33,13 +33,6 @@ resource "helm_release" "jenkins" {
     value = "80"
   }
 
-
-  set {
-    name  = "service.port"
-    value = "80"
-  }
-
-
 }
 
 resource "kubernetes_ingress" "ingress" {

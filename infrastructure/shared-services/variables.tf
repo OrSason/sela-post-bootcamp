@@ -27,6 +27,10 @@ variable "serviceprinciple_key"{
 variable "tenant_id"{
 }
 
+variable "admin_username" {
+    default = "azureuser"
+}
+
 variable "ssh_key" {
     default = "~/.ssh/id_rsa2.pub"
 }

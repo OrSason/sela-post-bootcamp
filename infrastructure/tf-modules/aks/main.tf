@@ -1,14 +1,14 @@
 
 
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = var.aks_name
+  name                = "${var.env_name}-AKS"
   location            = var.location
   resource_group_name = var.resourceGroupName
-  dns_prefix          = var.aks_name
+  dns_prefix          = "${var.env_name}-AKS"
   
 
   default_node_pool {
-    name       = var.node_pool_name
+    name       = "${var.env_name}np"
     enable_auto_scaling = false
     node_count = 1
     #for autoscaling uncomment next 3
@@ -26,10 +26,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
     client_secret = var.serviceprinciple_key
   }
 
-  
-
   linux_profile {
-    admin_username = "azureuser"
+    admin_username = var.admin_username
     ssh_key {
         key_data = var.ssh_key
     }

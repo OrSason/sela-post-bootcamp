@@ -30,18 +30,12 @@ variable "node_size"{
    description = "location of resource group"
 }
 
-variable "aks_name"{
-   type = string
-   description = "name of aks cluster"
-}
-
-
-variable "node_pool_name"{
-   type = string
-   description = "name of the node pool"
-}
 
 
 variable "env_name" {
   description = "The environment for the AKS cluster"
+}
+
+variable "admin_username" {
+    default = "azureuser"
 }

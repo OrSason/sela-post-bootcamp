@@ -22,7 +22,6 @@ provider "azurerm" {
  client_secret   = var.serviceprinciple_key
  tenant_id       = var.tenant_id
 
-
   features {}
 }
 
