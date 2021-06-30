@@ -645,7 +645,7 @@ agent:
   podName: "default"
   # Allows the Pod to remain active for reuse until the configured number of
   # minutes has passed since the last step was executed on it.
-  idleMinutes: 0
+  idleMinutes: 2
   # Raw yaml template for the Pod. For example this allows usage of toleration for agent pods.
   # https://github.com/jenkinsci/kubernetes-plugin#using-yaml-to-define-pod-templates
   # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
@@ -670,28 +670,28 @@ agent:
   # Keys are only used to give the pod template a meaningful name.  The only restriction is they may only contain RFC 1123 \ DNS label
   # characters: lowercase letters, numbers, and hyphens. Each pod template can contain multiple containers.
   # For this pod templates configuration to be loaded the following values must be set:
-  # controller.JCasC.defaultConfig: true
+  #controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
-  podTemplates: {}
-  #  python: |
-  #    - name: python
-  #      label: jenkins-python
-  #      serviceAccount: jenkins
-  #      containers:
-  #        - name: python
-  #          image: python:3
-  #          command: "/bin/sh -c"
-  #          args: "cat"
-  #          ttyEnabled: true
-  #          privileged: true
-  #          resourceRequestCpu: "400m"
-  #          resourceRequestMemory: "512Mi"
-  #          resourceLimitCpu: "1"
-  #          resourceLimitMemory: "1024Mi"
+  podTemplates: 
+     ubuntu: |
+       - name: jenkins-agent
+         label: jenkins-terraform
+         serviceAccount: jenkins
+         containers:
+           - name: jenkins-agent
+             image: ors09/jenkins-agent
+             command: "/bin/sh -c"
+             args: "cat"
+             ttyEnabled: true
+             privileged: true
+             resourceRequestCpu: "400m"
+             resourceRequestMemory: "512Mi"
+             resourceLimitCpu: "1"
+             resourceLimitMemory: "1024Mi"
 
 # Here you can add additional agents
 # They inherit all values from `agent` so you only need to specify values which differ
-additionalAgents: {}
+additionalAgents:
 #  maven:
 #    podName: maven
 #    customJenkinsLabels: maven
@@ -778,7 +778,7 @@ serviceAccountAgent:
 backup:
   # Backup must use RBAC
   # So by enabling backup you are enabling RBAC specific for backup
-  enabled: false
+  enabled: true
   # Used for label app.kubernetes.io/component
   componentName: "backup"
   # Schedule to run jobs. Must be in cron time format
@@ -799,7 +799,7 @@ backup:
   # Ref: https://github.com/maorfr/kube-tasks#simple-backup
   extraArgs: []
   # Add existingSecret for AWS credentials
-  existingSecret: {}
+  existingSecret:
   ## Example for using an existing secret
    # jenkinsaws:
   ## Use this key for AWS access key ID
@@ -810,10 +810,15 @@ backup:
    # jenkinsgcp:
   ## Use this key for GCP credentials
      # gcpcredentials: credentials.json
-  env: []
+  env: 
   # Example environment variable required for AWS credentials chain
   # - name: "AWS_REGION"
   #   value: "us-east-1"
+    - name: "AZURE_STORAGE_ACCOUNT"
+      value: "aksterra"
+    - name: "AZURE_STORAGE_ACCESS_KEY"
+      value: "/ieWXwafBVLJB4e8N39llZWoZFPieVWDuPZTNPDLeNCOSegBCPtfwl3KI7ECWpAt10srJC/ZqKFJwURO5fjfJg=="
+
   resources:
     requests:
       memory: 1Gi
@@ -825,7 +830,7 @@ backup:
   # Supported cloud storage services: AWS S3, Minio S3, Azure Blob Storage, Google Cloud Storage
   # Additional support can added. Visit this repository for details
   # Ref: https://github.com/maorfr/skbn
-  destination: "s3://jenkins-data/backup"
+  destination: "abs://aksterra/jenkins-backup"
   # By enabling only the jenkins_home/jobs folder gets backed up, not the whole jenkins instance
   onlyJobs: false
   # Enable backup pod security context (must be `true` if runAsUser or fsGroup are set)

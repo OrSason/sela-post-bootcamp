@@ -1,0 +1,63 @@
+String credentialsID = 'azureCredentials'
+
+pipeline {
+     agent {
+         label 'jenkins-terraform'
+        }
+
+     environment {
+    AZURE_STORAGE_ACCOUNT='aksterra'
+    SHARED_PATH='sela-post-bootcamp//infrastructure//shared-services'
+    GIT_SRC='https://github.com/OrSason/sela-post-bootcamp.git'
+     }
+
+    stages {
+
+        stage('azure login') {
+            steps {
+                container('jenkins-agent') {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: credentialsID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                      sh 'az login -u $USERNAME -p $PASSWORD'
+                       }
+                }
+            
+            }
+        }
+
+
+
+
+
+        stage('terraform init and plan') {
+            steps {
+                container('jenkins-agent') {
+
+                     sh 'git clone $GIT_SRC'
+                     sh 'cd $SHARED_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-shared --name terraform.tfvars --file terraform.tfvars --auth-mode login'
+                     sh 'cd $SHARED_PATH && terraform init'
+                     sh 'cd $SHARED_PATH && terraform plan'
+                }
+            }           
+        }   
+
+
+            stage('terraform apply') {
+                steps {
+                container('jenkins-agent') {
+                     sh 'cd $SHARED_PATH && terraform apply --auto-approve'
+               }
+              }
+            }
+            /*
+            stage('terraform destroy') {
+               steps {
+                container('jenkins-agent') {
+                     sh 'cd $SHARED_PATH && terraform destroy --auto-approve'
+            
+                    }
+               }
+            }
+            */
+         
+    }
+}
