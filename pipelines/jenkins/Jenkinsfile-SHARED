@@ -24,14 +24,9 @@ pipeline {
             }
         }
 
-
-
-
-
         stage('terraform init and plan') {
             steps {
                 container('jenkins-agent') {
-
                      sh 'git clone $GIT_SRC'
                      sh 'cd $SHARED_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-shared --name terraform.tfvars --file terraform.tfvars --auth-mode login'
                      sh 'cd $SHARED_PATH && terraform init'
@@ -41,13 +36,13 @@ pipeline {
         }   
 
 
-            stage('terraform apply') {
-                steps {
+        stage('terraform apply') {
+            steps {
                 container('jenkins-agent') {
                      sh 'cd $SHARED_PATH && terraform apply --auto-approve'
-               }
-              }
+                }
             }
+        }
             /*
             stage('terraform destroy') {
                steps {
