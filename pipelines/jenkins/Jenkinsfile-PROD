@@ -29,7 +29,7 @@ pipeline {
                 container('jenkins-agent') {
 
                      sh 'git clone $GIT_SRC'
-                     sh 'cd $PROD_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars --name terraform.tfvars --file terraform.tfvars --auth-mode login'
+                     sh 'cd $PROD_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-prod --name terraform.tfvars --file terraform.tfvars --auth-mode login'
                      sh 'cd $PROD_PATH && terraform init'
                      sh 'cd $PROD_PATH && terraform plan'
                 }
