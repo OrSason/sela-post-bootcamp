@@ -50,7 +50,18 @@ variable "registry_name" {
 }
 
 variable "jenkins_user"{
+
 }
 
 variable "jenkins_pass"{
 }
+
+
+variable "azure_storage_account"{
+}
+
+variable "azure_storage_key"{
+
+    sensitive = true
+}
+

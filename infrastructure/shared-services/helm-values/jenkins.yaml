@@ -801,6 +801,9 @@ backup:
   # Add existingSecret for AWS credentials
   existingSecret:
   ## Example for using an existing secret
+  #  jenkinsazure:
+  #    azstorageaccount: azure_storage_account
+  #    azstoragekey:     azure_storage_key
    # jenkinsaws:
   ## Use this key for AWS access key ID
      # awsaccesskey: jenkins_aws_access_key
@@ -815,9 +818,9 @@ backup:
   # - name: "AWS_REGION"
   #   value: "us-east-1"
     - name: "AZURE_STORAGE_ACCOUNT"
-      value: "aksterra"
+      value: ""
     - name: "AZURE_STORAGE_ACCESS_KEY"
-      value: "/ieWXwafBVLJB4e8N39llZWoZFPieVWDuPZTNPDLeNCOSegBCPtfwl3KI7ECWpAt10srJC/ZqKFJwURO5fjfJg=="
+      value: ""
 
   resources:
     requests:

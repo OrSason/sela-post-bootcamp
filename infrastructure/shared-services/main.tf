@@ -44,4 +44,7 @@ module "jenkins" {
   env_np                = var.env_name
   jenkins_user          = var.jenkins_user
   jenkins_pass          = var.jenkins_pass
+  azure_storage_account = var.azure_storage_account
+  azure_storage_key     = var.azure_storage_key
+
 }

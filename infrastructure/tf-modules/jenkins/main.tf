@@ -19,17 +19,26 @@ resource "helm_release" "jenkins" {
     value = var.jenkins_user
   }
 
-  set {
+  set_sensitive {
     name  = "controller.adminPassword"
     value = var.jenkins_pass
+  }
+
+   set {
+    name  = "backup.env[0].value"
+    value = var.azure_storage_account
+  }
+
+  set_sensitive {
+    name  = "backup.env[1].value"
+    value = var.azure_storage_key
   }
 
  
 }
 
 
-
-
+## Expose jenkins server
 resource "kubernetes_ingress" "ingress" {
   wait_for_load_balancer = true
   metadata {
