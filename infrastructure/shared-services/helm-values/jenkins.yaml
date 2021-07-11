@@ -35,7 +35,7 @@ controller:
   executorMode: "NORMAL"
   # This is ignored if enableRawHtmlMarkupFormatter is true
   markupFormatter: plainText
-  customJenkinsLabels: []
+  customJenkinsLabels: ["jenkins-controller"]
   # The default configuration uses this secret to configure an admin user
   # If you don't need that user or use a different security realm then you can disable it
   adminSecret: true
@@ -122,7 +122,7 @@ controller:
   serviceLabels: {}
   #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
   # Put labels on Jenkins controller pod
-  podLabels: {}
+  podLabels: ["jenkins-controller"]
   # Used to create Ingress record (should used with ServiceType: ClusterIP)
   # nodePort: <to set explicitly, choose port between 30000-32767
   # Enable Kubernetes Liveness and Readiness Probes
@@ -223,6 +223,9 @@ controller:
     - credentials-binding:1.26
     - junit:1.50
     - github:1.33.1
+    - azure-cli:0.9
+    - docker-workflow:1.26
+    - docker-plugin:1.2.2
 
   # Enable to initialize the Jenkins controller only once on initial installation.
   # Without this, whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates which has the potential to cause breakage.
@@ -681,13 +684,14 @@ agent:
            - name: jenkins-agent
              image: ors09/jenkins-agent
              command: "/bin/sh -c"
-             args: "cat"
+             args: "-v /var/run/docker.sock:/var/run/docker.sock"
              ttyEnabled: true
              privileged: true
              resourceRequestCpu: "400m"
              resourceRequestMemory: "512Mi"
              resourceLimitCpu: "1"
              resourceLimitMemory: "1024Mi"
+
 
 # Here you can add additional agents
 # They inherit all values from `agent` so you only need to specify values which differ

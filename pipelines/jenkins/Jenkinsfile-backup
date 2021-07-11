@@ -1,0 +1,34 @@
+String credentialsID = 'azureCredentials'
+
+pipeline {
+     agent {
+         label 'jenkins'
+        }
+
+     environment {
+    AZURE_STORAGE_ACCOUNT='aksterra'
+    JENKINS_HOME_PATH='var//jenkins_home'
+     }
+
+    stages {
+
+        stage('azure login') {
+            steps {
+                container('jenkins-agent') {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: credentialsID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                      sh 'az login -u $USERNAME -p $PASSWORD'
+                       }
+                }
+
+            }
+        }
+
+        stage('backup') {
+            steps {
+                container('jenkins') { 
+                     sh 'cd $JENKINS_HOME_PATH &&  az storage blob download-batch -d . --account-name $AZURE_STORAGE_ACCOUNT -s jenkins_backup --pattern 20210705133656/*'
+                }
+            }           
+        }   
+    }
+}

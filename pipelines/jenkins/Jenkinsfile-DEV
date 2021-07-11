@@ -27,9 +27,8 @@ pipeline {
         stage('terraform init and plan') {
             steps {
                 container('jenkins-agent') {
-
                      sh 'git clone $GIT_SRC'
-                     sh 'cd $DEV_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-dev --name terraform.tfvars --file terraform.tfvars --auth-mode login'
+                     sh 'cd $DEV_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-dev --name terraform.tfvars --file terraform.tfvars --auth-mode key'
                      sh 'cd $DEV_PATH && terraform init'
                      sh 'cd $DEV_PATH && terraform plan'
                 }

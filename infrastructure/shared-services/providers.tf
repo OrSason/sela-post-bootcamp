@@ -10,7 +10,7 @@ terraform {
   backend "azurerm" {
     resource_group_name   = "storage-rg"
     storage_account_name  = "aksterra"
-    container_name        = "tfstate-shared"
+    container_name        = "tfstate-share"
     key                   = "terraform.tfstate"
   }
 }

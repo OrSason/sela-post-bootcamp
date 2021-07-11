@@ -1,0 +1,69 @@
+String credentialsID = 'azureCredentials'
+
+pipeline {
+     agent {
+         label 'jenkins-terraform'
+        }
+
+     environment {
+    AZURE_STORAGE_ACCOUNT='aksterra'
+    APP_PATH='sela-post-bootcamp/src/web-app/'
+    GIT_SRC='https://github.com/OrSason/sela-post-bootcamp.git'
+    REGISTRY_NAME='ors10'
+    registry = "ors10.azurecr.io/goapp"
+    dockerImage = ''
+     }
+
+    stages {
+
+        stage('azure login') {
+            steps {
+                container('jenkins-agent') {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: credentialsID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                      sh 'az login -u $USERNAME -p $PASSWORD'
+                       }
+                       sh 'az acr login --name $REGISTRY_NAME --expose-token'
+                }
+            
+            }
+        }
+
+
+        stage('Building image') {
+          steps{
+            container('jenkins-agent') {
+               sh 'git clone $GIT_SRC'
+                script {
+                   // dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                   sh 'docker ps'
+                    docker.build(registry + ":$BUILD_NUMBER", "-f sela-post-bootcamp/src/web-app/ .")
+                    
+                }
+          }
+      }
+    }
+    
+    stage('Push Image to registry') {
+      steps{
+          container('jenkins-agent') {
+        script {
+          docker.withRegistry('https://ors10.azurecr.io') {
+          dockerImage.push()
+          }
+        }
+        
+       }
+      }
+    }
+   
+     
+    
+   /*
+      stage('Trigger cd job') {
+      steps{
+        build job: 'k8s-cd', propagate: true, wait: true
+      }
+    }
+    */                    
+    }
+}
