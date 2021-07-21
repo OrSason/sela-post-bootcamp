@@ -14,7 +14,7 @@
   ### Prerequisite 
   
    - azure account
-   - azure storage account for stroing tfstate files
+   - azure storage account for storing tfstate files
    - terraform installed
    - azure cli
   
