@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: orsasonselapostbootcamp 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orsasonselapostbootcamp
+  template:
+    metadata:
+      labels:
+        app: orsasonselapostbootcamp 
+    spec:
+      containers:
+        - name: orsasonselapostbootcamp 
+          image: ors10.azurecr.io/orsasonselapostbootcamp
+          ports:
+          - containerPort: 80
