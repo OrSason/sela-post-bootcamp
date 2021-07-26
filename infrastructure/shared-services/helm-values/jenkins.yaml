@@ -683,7 +683,7 @@ agent:
          serviceAccount: jenkins
          containers:
            - name: jenkins-agent
-             image: ors09/jenkins-fedora:v2
+             image: ors09/jenkins-fedora:v4
              command: "/bin/sh -c"
              args: "cat"
              ttyEnabled: true

@@ -1,4 +1,4 @@
-String credentialsID = 'azureCredentials'
+String credentialsID = 'azureSP'
 
 pipeline {
      agent {
@@ -16,10 +16,13 @@ pipeline {
         stage('azure login') {
             steps {
                 container('jenkins-agent') {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: credentialsID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                      sh 'az login -u $USERNAME -p $PASSWORD'
-                       }
-                }
+                withCredentials([azureServicePrincipal(credentialsId: credentialsID,
+                                                    subscriptionIdVariable: 'SUBS_ID',
+                                                    clientIdVariable: 'CLIENT_ID',
+                                                    clientSecretVariable: 'CLIENT_SECRET',
+                                                    tenantIdVariable: 'TENANT_ID')]) {
+                    sh 'az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET -t $TENANT_ID'
+                    }
             
             }
         }
@@ -27,10 +30,18 @@ pipeline {
         stage('terraform init and plan') {
             steps {
                 container('jenkins-agent') {
-                     sh 'git clone $GIT_SRC'
-                     sh 'cd $DEV_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-dev --name terraform.tfvars --file terraform.tfvars --auth-mode key'
-                     sh 'cd $DEV_PATH && terraform init'
-                     sh 'cd $DEV_PATH && terraform plan'
+              //       sh 'git clone $GIT_SRC'
+              //       sh 'cd $DEV_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-dev --name terraform.tfvars --file terraform.tfvars --auth-mode key'
+              //       sh 'cd $DEV_PATH && terraform init'
+              //       sh 'cd $DEV_PATH && terraform plan'
+
+                     sh '''
+                        git clone $GIT_SRC
+                        cd $DEV_PATH
+                        az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-dev --name terraform.tfvars --file terraform.tfvars --auth-mode key
+                        terraform init
+                        terraform plan
+                     '''
                 }
             }           
         }   
