@@ -226,6 +226,7 @@ controller:
     - azure-cli:0.9
     - docker-workflow:1.26
     - docker-plugin:1.2.2
+    - azure-credentials:182.v3ccd4a755864
 
   # Enable to initialize the Jenkins controller only once on initial installation.
   # Without this, whenever the controller gets restarted (Evicted, etc.) it will fetch plugin updates which has the potential to cause breakage.
@@ -676,21 +677,22 @@ agent:
   #controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   podTemplates: 
-     ubuntu: |
+     centos: |
        - name: jenkins-agent
          label: jenkins-terraform
          serviceAccount: jenkins
          containers:
            - name: jenkins-agent
-             image: ors09/jenkins-agent
+             image: ors09/jenkins-fedora:v2
              command: "/bin/sh -c"
-             args: "-v /var/run/docker.sock:/var/run/docker.sock"
+             args: "cat"
              ttyEnabled: true
              privileged: true
              resourceRequestCpu: "400m"
              resourceRequestMemory: "512Mi"
              resourceLimitCpu: "1"
              resourceLimitMemory: "1024Mi"
+
 
 
 # Here you can add additional agents

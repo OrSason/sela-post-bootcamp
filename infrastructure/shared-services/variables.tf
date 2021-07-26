@@ -56,6 +56,13 @@ variable "jenkins_user"{
 variable "jenkins_pass"{
 }
 
+variable "acr_user"{
+
+}
+
+variable "acr_pass"{
+}
+
 
 variable "azure_storage_account"{
 }

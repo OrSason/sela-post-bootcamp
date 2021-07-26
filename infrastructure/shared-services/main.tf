@@ -10,8 +10,8 @@ resource "azurerm_container_registry" "acr" {
   resource_group_name      = var.resourceGroupName
   location                 = var.location
   sku                      = "Standard"
-  admin_enabled            = false
-  depends_on          = [azurerm_resource_group.rg]
+  admin_enabled            = true
+  depends_on               = [azurerm_resource_group.rg]
 }
 
 

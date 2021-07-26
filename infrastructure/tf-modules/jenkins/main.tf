@@ -38,6 +38,9 @@ resource "helm_release" "jenkins" {
 }
 
 
+
+
+
 ## Expose jenkins server
 
 resource "kubernetes_ingress" "ingress" {
