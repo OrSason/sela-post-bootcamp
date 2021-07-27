@@ -49,7 +49,7 @@ ingress:
   hosts:
     - host: 
       paths:
-        - path: /
+        - path: /goapp
           pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
