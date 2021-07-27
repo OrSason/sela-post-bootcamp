@@ -80,11 +80,11 @@ controller:
   # jenkinsOpts: ""
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block the configured hostname will be the ingress hostname starting with `https://` or `http://` depending on the `tls` configuration.
   # The Protocol can be overwritten by specifying `controller.jenkinsUrlProtocol`.
-  # jenkinsUrlProtocol: "https"
+  jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
   # jenkinsUrl: ""
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
-  # jenkinsUriPrefix: "/jenkins"
+  jenkinsUriPrefix: "/jenkins"
   # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
   usePodSecurityContext: true
   # Note that `runAsUser`, `fsGroup`, and `securityContextCapabilities` are
@@ -410,7 +410,7 @@ controller:
     # kubernetes.io/tls-acme: "true"
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    #  ingressClassName: nginx
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
     # path: "/jenkins"
     # configures the hostname e.g. jenkins.example.com

@@ -50,14 +50,14 @@ resource "kubernetes_ingress" "ingress" {
     namespace = var.env_np
     annotations = {
       "kubernetes.io/ingress.class" = "nginx"
-      "nginx.ingress.kubernetes.io/rewrite-target" = "/"
+     # "nginx.ingress.kubernetes.io/rewrite-target" = "/"
     }
   }
   spec {
     rule {
       http {
         path {
-          path = "/"
+          path = "/jenkins"
           backend {
             service_name = "jenkins"
             service_port = 8080

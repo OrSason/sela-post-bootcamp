@@ -7,7 +7,7 @@ pipeline {
 
      environment {
     AZURE_STORAGE_ACCOUNT='aksterra'
-    PROD_PATH='sela-post-bootcamp//infrastructure//production'
+    DEV_PATH='sela-post-bootcamp//infrastructure//development'
     GIT_SRC='https://github.com/OrSason/sela-post-bootcamp.git'
      }
 
@@ -27,20 +27,21 @@ pipeline {
         stage('terraform init and plan') {
             steps {
                 container('jenkins-agent') {
-
-                     sh 'git clone $GIT_SRC'
-                     sh 'cd $PROD_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-prod --name terraform.tfvars --file terraform.tfvars --auth-mode login'
-                     sh 'cd $PROD_PATH && terraform init'
-                     sh 'cd $PROD_PATH && terraform plan'
+                    sh 'git clone $GIT_SRC'
+                    sh 'cd $DEV_PATH &&  az storage blob download --account-name $AZURE_STORAGE_ACCOUNT --container-name terra-vars-dev --name terraform.tfvars --file terraform.tfvars --auth-mode key'
+                    sh 'cd $DEV_PATH && terraform init'
+                    sh 'cd $DEV_PATH && terraform plan'
                 }
-            }           
+
+            }
+                 
         }   
 
 
         stage('terraform apply') {
             steps {
                 container('jenkins-agent') {
-                     sh 'cd $PROD_PATH && terraform apply --auto-approve'
+                     sh 'cd $DEV_PATH && terraform apply --auto-approve'
                 }
             }
         }
@@ -48,7 +49,7 @@ pipeline {
             stage('terraform destroy') {
                steps {
                 container('jenkins-agent') {
-                     sh 'cd $PROD_PATH && terraform destroy --auto-approve'
+                     sh 'cd $DEV_PATH && terraform destroy --auto-approve'
             
                     }
                }
