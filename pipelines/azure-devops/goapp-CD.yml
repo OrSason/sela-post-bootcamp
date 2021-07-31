@@ -1,0 +1,66 @@
+# Variable Group 'ciBuildiNumber' was defined in the Variables tab
+variables:
+- name: BuildParameters.destination
+  value: $(Build.ArtifactStagingDirectory)
+- name: envName
+  value: "shared"
+resources:
+  pipelines:
+  - pipeline: ors2342-Docker container-CI
+    source: ors2342-Docker container-CI
+    trigger:
+      branches:
+        include:
+        - refs/heads/main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    name: aks-terra
+  steps:
+  - checkout: self
+  - task: HelmInstaller@0
+    displayName: Install Helm 2.14.1
+  - task: HelmDeploy@0
+    displayName: helm ls
+    inputs:
+      azureSubscriptionEndpoint: daa50109-9451-405c-9452-e0e87337fe37
+      azureResourceGroup: aks- $(envName)
+      kubernetesCluster:  $(envName)-AKS
+      useClusterAdmin: true
+      namespace:  $(envName)
+  - task: HelmDeploy@0
+    displayName: helm package
+    inputs:
+      azureSubscriptionEndpoint: daa50109-9451-405c-9452-e0e87337fe37
+      azureResourceGroup: aks- $(envName)
+      kubernetesCluster:  $(envName)-AKS
+      useClusterAdmin: true
+      namespace:  $(envName)
+      command: package
+      chartType: FilePath
+      chartPath: kubernetes/helm/web-app
+      releaseName: goapp
+      valueFile: kubernetes/helm/web-app/values.yaml
+      destination: $(BuildParameters.destination)
+  - task: HelmDeploy@0
+    name: ''
+    displayName: helm upgrade
+    inputs:
+      azureSubscriptionEndpoint: daa50109-9451-405c-9452-e0e87337fe37
+      azureResourceGroup: aks- $(envName)
+      kubernetesCluster:  $(envName)-AKS
+      useClusterAdmin: true
+      namespace:  $(envName)
+      command: upgrade
+      chartType: FilePath
+      chartPath: kubernetes/helm/web-app
+      releaseName: goapp
+      overrideValues: ' image.tag=latest'
+      valueFile: kubernetes/helm/web-app/values.yaml
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: goapp'
+    inputs:
+      PathtoPublish: kubernetes/helm/web-app
+      ArtifactName: goapp
+...
