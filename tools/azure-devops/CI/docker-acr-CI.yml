@@ -7,8 +7,7 @@ name: $(date:yyyyMMdd)$(rev:.r)
 jobs:
 - job: Job_1
   displayName: Agent job 1
-  pool:
-    vmImage: windows-2019
+  pool: aks-terra
   steps:
   - checkout: self
   - task: Docker@0
