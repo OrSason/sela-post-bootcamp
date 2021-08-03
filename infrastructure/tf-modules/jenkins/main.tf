@@ -23,6 +23,7 @@ resource "helm_release" "jenkins" {
     name  = "controller.adminPassword"
     value = var.jenkins_pass
   }
+  /*
 
    set {
     name  = "backup.env[0].value"
@@ -34,7 +35,7 @@ resource "helm_release" "jenkins" {
     value = var.azure_storage_key
   }
 
- 
+ */
 }
 
 
@@ -67,4 +68,20 @@ resource "kubernetes_ingress" "ingress" {
     }
   }
   }
+
+
+
+
+ resource "kubernetes_secret" "jenkinsazure" {
+  metadata {
+    name = "jenkinsazure"
+    namespace = var.env_np
+  }
+
+  data = {
+    azure_storage_account = var.azure_storage_account
+    azure_storage_key = var.azure_storage_key
+  }
+
+} 
   
