@@ -1,3 +1,5 @@
+# Contain script for turning of k8s cluster using service principal
+
 #!/bin/bash
 
 # Variables
