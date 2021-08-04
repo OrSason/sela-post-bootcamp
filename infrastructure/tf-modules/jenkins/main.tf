@@ -23,6 +23,8 @@ resource "helm_release" "jenkins" {
     name  = "controller.adminPassword"
     value = var.jenkins_pass
   }
+
+  //provide extra variables
   /*
 
    set {
@@ -70,8 +72,6 @@ resource "kubernetes_ingress" "ingress" {
   }
 
 
-
-
  resource "kubernetes_secret" "jenkinsazure" {
   metadata {
     name = "jenkinsazure"
@@ -82,6 +82,6 @@ resource "kubernetes_ingress" "ingress" {
     azure_storage_account = var.azure_storage_account
     azure_storage_key = var.azure_storage_key
   }
-
 } 
+
   
