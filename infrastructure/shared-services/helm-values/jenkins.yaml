@@ -841,7 +841,7 @@ backup:
   # Ref: https://github.com/maorfr/skbn
   destination: "abs://aksterra/jenkins-backup"
   # By enabling only the jenkins_home/jobs folder gets backed up, not the whole jenkins instance
-  onlyJobs: false
+  onlyJobs: true
   # Enable backup pod security context (must be `true` if runAsUser or fsGroup are set)
   usePodSecurityContext: true
   # When setting runAsUser to a different value than 0 also set fsGroup to the same value:
