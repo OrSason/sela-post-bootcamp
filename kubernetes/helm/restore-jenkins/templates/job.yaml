@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: skbn
+  name: skbn
+  namespace: {{ .Values.backup.namespace }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: skbn
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: skbn
+      containers:
+      - name: skbn
+        image: maorfr/skbn
+        command: ["skbn"]
+        args:
+        - cp
+        - --dst
+        - k8s://{{ .Values.backup.namespace }}/jenkins-0/jenkins/var/jenkins_home/jobs/
+        - --src
+        - abs://{{ .Values.backup.storageAccount }}/jenkins-backup/{{ .Values.backup.backupDate}}/
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: "AZURE_STORAGE_ACCOUNT"
+          value: {{ .Values.backup.account.storageAccount | quote }}
+        - name: "AZURE_STORAGE_ACCESS_KEY"
+          value: {{ .Values.backup.account.storageAccessKey | quote }}

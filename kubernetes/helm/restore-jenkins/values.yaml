@@ -1,0 +1,24 @@
+# Default values for restore-jenkins.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+backup:
+ namespace: "shared"
+ account:
+  storageAccount: "aksterra"
+  storageAccessKey: "WF1QVJg1zqVn3uMHZJvddIFLkhObKg58/+XX6YCIc01hdibkeHp26yuFRmeJCrmPL08lVaFEFeJGpKj4VjLDjQ=="
+ backupDate: "20210807205200"
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+service:
+  type: NodePort
+  port: 5000
+
