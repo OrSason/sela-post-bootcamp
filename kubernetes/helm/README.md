@@ -23,3 +23,12 @@
          
          
   - custom values can be set in values.yml   
+ 
+## Restore-jenkins
+
+ - contain helm chart for a restore job that pull backup files from azure blob storage
+ - after deploying the chart, delete the jenkins pod so the backup will load to the new jenkins instance
+
+   -  install chart with
+   
+          $ helm install <release-name> ./restore-jenkins -n <namespace-name>
